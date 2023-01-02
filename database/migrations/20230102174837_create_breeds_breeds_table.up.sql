@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS breeds_breeds (
+    id BIGINT UNSIGNED AUTO_INCREMENT NOT NULL,
+    uuid VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+
+    created_at DATETIME DEFAULT NULL,
+    updated_at DATETIME DEFAULT NULL,
+    deleted_at DATETIME DEFAULT NULL,
+
+    PRIMARY KEY(id)
+);
