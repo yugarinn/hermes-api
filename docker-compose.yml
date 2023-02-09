@@ -5,7 +5,7 @@ services:
     ports:
       - 33060:3306
     environment:
-      MYSQL_DATABASE: catapi
-      MYSQL_USER: catapi
+      MYSQL_DATABASE: pigeon_messaging
+      MYSQL_USER: pigeon
       MYSQL_PASSWORD: secret
       MYSQL_ROOT_PASSWORD: secret

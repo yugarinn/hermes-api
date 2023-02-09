@@ -8,7 +8,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-const projectDirName = "catapi.cat"
+const projectDirName = "pigeon-api"
 
 func LoadEnvFile(env string) {
 	projectName := regexp.MustCompile(`^(.*` + projectDirName + `)`)

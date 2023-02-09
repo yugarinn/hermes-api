@@ -16,5 +16,4 @@ func CheckAccessToken(context *gin.Context) {
     } else {
 		context.Next()
 	}
-
 }

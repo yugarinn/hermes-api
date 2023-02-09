@@ -3,7 +3,7 @@ package responses
 import (
 	"time"
 
-	models "github.com/yugarinn/catapi.cat/app/auth/models"
+	models "github.com/yugarinn/pigeon-api/app/auth/models"
 )
 
 type AccessTokenResponse struct {

@@ -7,10 +7,10 @@ import (
 
 	"gorm.io/gorm"
 
-	"github.com/yugarinn/catapi.cat/connections"
+	"github.com/yugarinn/pigeon-api/connections"
 
-	auth "github.com/yugarinn/catapi.cat/app/auth/models"
-	users "github.com/yugarinn/catapi.cat/app/users/models"
+	auth "github.com/yugarinn/pigeon-api/app/auth/models"
+	users "github.com/yugarinn/pigeon-api/app/users/models"
 
 	"github.com/golang-jwt/jwt/v4"
 )

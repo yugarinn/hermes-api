@@ -1,0 +1,41 @@
+package factories
+
+import (
+	"github.com/yugarinn/pigeon-api/app/users/inputs"
+	"github.com/yugarinn/pigeon-api/app/users/models"
+	"github.com/jaswdr/faker"
+)
+
+func CreateUser(properties inputs.CreateUserInput) users.User {
+    user := users.User{Email: properties.Email, Name: properties.Name, PhoneNumber: properties.PhoneNumber, CountryCode: properties.CountryCode}
+
+	if len(user.Name) == 0 {
+		user.Name = faker.New().Person().Name()
+	}
+
+	if len(user.Email) == 0 {
+		user.Email = faker.New().Person().Contact().Email
+	}
+
+	if len(user.PhoneNumber) == 0 {
+		user.PhoneNumber = faker.New().Person().Contact().Phone
+	}
+
+	if len(user.CountryCode) == 0 {
+		user.CountryCode = "ES"
+	}
+
+	database.Create(&user)
+
+	return user
+}
+
+func CreateUsersList(number int, properties inputs.CreateUserInput) []users.User {
+	var users []users.User
+
+	for i := 0; i < number; i++ {
+		users = append(users, CreateUser(properties))
+	}
+
+	return users
+}

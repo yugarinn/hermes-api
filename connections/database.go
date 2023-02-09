@@ -6,13 +6,13 @@ import (
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"github.com/yugarinn/catapi.cat/utils"
+	"github.com/yugarinn/pigeon-api/utils"
 )
 
-const projectDirName = "catapi.cat"
+const projectDirName = "pigeon-api"
 
 func Database() *gorm.DB {
-	utils.LoadEnvFile(os.Getenv("CATAPI_ENV"))
+	utils.LoadEnvFile(os.Getenv("PIGEON_ENV"))
 
 	databaseURI := os.Getenv("DB_URI")
 	database, err := gorm.Open(mysql.Open(databaseURI), &gorm.Config{})

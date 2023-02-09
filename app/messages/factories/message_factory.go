@@ -4,16 +4,16 @@ import (
 	"github.com/jaswdr/faker"
 	"gorm.io/gorm"
 
-	"github.com/yugarinn/catapi.cat/app/breeds/models"
-	"github.com/yugarinn/catapi.cat/app/breeds/inputs"
-	"github.com/yugarinn/catapi.cat/connections"
+	"github.com/yugarinn/pigeon-api/app/messages/models"
+	"github.com/yugarinn/pigeon-api/app/messages/inputs"
+	"github.com/yugarinn/pigeon-api/connections"
 )
 
 
 var database *gorm.DB = connections.Database()
 
-func CreateBreed(properties inputs.CreateBreedInput) breeds.Breed {
-    breed := breeds.Breed{Uuid: properties.Uuid, Name: properties.Name, Description: properties.Description}
+func CreateMessage(properties inputs.CreateMessageInput) messages.Message {
+	breed := messages.Message{Uuid: properties.Uuid, Message: properties.Name, Description: properties.Description}
 
 	fake := faker.New()
 

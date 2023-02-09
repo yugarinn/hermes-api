@@ -2,13 +2,15 @@ package tests
 
 import (
 	"fmt"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 
-	"github.com/yugarinn/catapi.cat/app/breeds/models"
-	"github.com/yugarinn/catapi.cat/connections"
-	"github.com/yugarinn/catapi.cat/http"
+	"github.com/yugarinn/pigeon-api/app/users/models"
+	"github.com/yugarinn/pigeon-api/app/messages/models"
+	"github.com/yugarinn/pigeon-api/connections"
+	"github.com/yugarinn/pigeon-api/http"
 )
 
 
@@ -26,6 +28,16 @@ func SetupRouter() *gin.Engine {
 func Reset() {
 	databaseTeardown()
 	databaseSetup()
+}
+
+func AuthenticateAs(userId uint64, request *http.Request) {
+	var user users.User
+	database.Where("id", userId).First(&user)
+	accessToken := "access_token"
+	// TODO
+	// accessToken, _ := authManager.GenerateAccessTokenForUser(user)
+
+	request.Header.Set("Authorization", accessToken)
 }
 
 func DatabaseHas(tableName string, whereClause string) bool {
@@ -46,12 +58,10 @@ func DatabaseMissing(tableName string, whereClause string) bool {
 	return !DatabaseHas(tableName, whereClause)
 }
 
-// TODO: DRY
 func databaseSetup() {
-	database.AutoMigrate(&breeds.Breed{})
+	database.AutoMigrate(&messages.Message{})
 }
 
-// TODO: DRY
 func databaseTeardown() {
-	database.Migrator().DropTable(&breeds.Breed{})
+	database.Migrator().DropTable(&messages.Message{})
 }
