@@ -7,6 +7,6 @@ import (
 
 const DEFAULT_PAGE_SIZE = 20
 
-func HttpErrorHandler(context *gin.Context, code int, message string) {
+func FailWithHttpCode(context *gin.Context, code int, message string) {
 	context.AbortWithStatusJSON(code, gin.H{"message": message})
 }

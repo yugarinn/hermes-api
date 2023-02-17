@@ -21,14 +21,14 @@ func CreateMessage(context *gin.Context) {
 	validationErrors := validate.Struct(input)
 
 	if  validationErrors != nil {
-		HttpErrorHandler(context, 422, validationErrors.Error())
+		FailWithHttpCode(context, 422, validationErrors.Error())
 		return
 	}
 
 	message, creationError := managers.CreateMessage(input)
 
 	if creationError != nil {
-		HttpErrorHandler(context, 422, creationError.Error())
+		FailWithHttpCode(context, 422, creationError.Error())
 		return
 	}
 

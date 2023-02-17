@@ -1,0 +1,16 @@
+CREATE TABLE IF NOT EXISTS users_users (
+    id BIGINT UNSIGNED AUTO_INCREMENT NOT NULL,
+    uuid VARCHAR(255) NOT NULL,
+    sender_id VARCHAR(255) NOT NULL,
+    receiver_id VARCHAR(255) NOT NULL,
+    body TEXT NOT NULL,
+
+    deliver_at DATETIME DEFAULT NULL,
+    delivered_at DATETIME DEFAULT NULL,
+
+    created_at DATETIME DEFAULT NULL,
+    updated_at DATETIME DEFAULT NULL,
+    deleted_at DATETIME DEFAULT NULL,
+
+    PRIMARY KEY(id)
+);

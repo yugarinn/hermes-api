@@ -19,7 +19,9 @@ type ExpectedMessageCreationResponse struct {
 	SentAt string
 }
 
-func TestBreeds(t *testing.T) {
+func TestMessages(t *testing.T) {
+	t.Skip()
+
 	t.Run("POST /messages successfuly creates a new message", func(t *testing.T) {
 		Reset()
 

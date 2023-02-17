@@ -13,6 +13,7 @@ func Register(router *gin.Engine) {
 	authorizedRoutes := router.Group("/")
 	authorizedRoutes.Use(middlewares.CheckAccessToken)
 	{
-		authorizedRoutes.POST("/messages", controllers.CreateMessage)
+		// authorizedRoutes.POST("/messages", controllers.CreateMessage)
+		authorizedRoutes.GET("/users/:userId", controllers.GetUser)
 	}
 }

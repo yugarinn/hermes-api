@@ -12,6 +12,11 @@ type UserResponse struct {
 	PhoneNumber string `json:"phoneNumber"`
 }
 
+type PaginatedUserResponse struct {
+	Users []UserResponse  `json:"users"`
+	Pagination Pagination `json:"pagination"`
+}
+
 func SerializeUser(user models.User) UserResponse {
 	return UserResponse{
 		ID: user.ID,
