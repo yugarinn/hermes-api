@@ -42,9 +42,9 @@ require (
 	golang.org/x/sync v0.1.0 // indirect
 	golang.org/x/sys v0.5.0 // indirect
 	golang.org/x/text v0.7.0 // indirect
-	golang.org/x/tools v0.6.0 // indirect
+	golang.org/x/tools v0.6.1-0.20230217175706-3102dad5faf9 // indirect
 	golang.org/x/tools/gopls v0.11.0 // indirect
-	golang.org/x/vuln v0.0.0-20230217165152-67742527d09b // indirect
+	golang.org/x/vuln v0.0.0-20230217204342-b91abcc5ae3c // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect

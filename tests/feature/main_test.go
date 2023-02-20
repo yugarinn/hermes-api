@@ -59,9 +59,11 @@ func DatabaseMissing(tableName string, whereClause string) bool {
 }
 
 func databaseSetup() {
+	database.AutoMigrate(&users.User{})
 	database.AutoMigrate(&messages.Message{})
 }
 
 func databaseTeardown() {
+	database.Migrator().DropTable(&users.User{})
 	database.Migrator().DropTable(&messages.Message{})
 }

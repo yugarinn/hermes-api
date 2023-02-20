@@ -2,6 +2,7 @@ package tests
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -17,8 +18,10 @@ type ExpectedUserResponse struct {
 	ID uint64
 	Email string
 	Name string
+	LastName string
 	CountryCode string
 	PhoneNumber string
+	PhonePrefix string
 }
 
 func TestUsers(t *testing.T) {
@@ -38,11 +41,14 @@ func TestUsers(t *testing.T) {
 
 		json.NewDecoder(writer.Body).Decode(&response)
 
+		fmt.Println(response.PhoneNumber)
+		fmt.Println(user.PhoneNumber)
+
 		assert.Equal(t, 200, writer.Code)
 		assert.Equal(t, user.ID, response.ID)
-		assert.Equal(t, user.Name, nil)
-		assert.Equal(t, user.Email, nil)
-		assert.Equal(t, user.PhonePrefix, response.Name)
+		assert.Equal(t, user.Name, response.Name)
+		assert.Equal(t, user.LastName, response.LastName)
+		assert.Equal(t, user.PhonePrefix, response.PhonePrefix)
 		assert.Equal(t, user.PhoneNumber, response.PhoneNumber)
 		assert.Equal(t, user.CountryCode, response.CountryCode)
 	})

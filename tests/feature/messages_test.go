@@ -20,9 +20,8 @@ type ExpectedMessageCreationResponse struct {
 }
 
 func TestMessages(t *testing.T) {
-	t.Skip()
-
 	t.Run("POST /messages successfuly creates a new message", func(t *testing.T) {
+		t.Skip()
 		Reset()
 
 		var response ExpectedMessageCreationResponse

@@ -1,12 +1,12 @@
 CREATE TABLE IF NOT EXISTS users_users (
     id BIGINT UNSIGNED AUTO_INCREMENT NOT NULL,
-    uuid VARCHAR(255) NOT NULL,
-    sender_id VARCHAR(255) NOT NULL,
-    receiver_id VARCHAR(255) NOT NULL,
-    body TEXT NOT NULL,
-
-    deliver_at DATETIME DEFAULT NULL,
-    delivered_at DATETIME DEFAULT NULL,
+    email VARCHAR(255),
+    phone_prefix VARCHAR(255) NOT NULL,
+    phone_number VARCHAR(255) NOT NULL,
+    country_code VARCHAR(255) NOT NULL,
+    name VARCHAR(255),
+    last_name VARCHAR(255),
+    is_confirmed TINYINT(1),
 
     created_at DATETIME DEFAULT NULL,
     updated_at DATETIME DEFAULT NULL,
