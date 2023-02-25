@@ -55,9 +55,6 @@ func GetUser(context *gin.Context) {
 	userId, _ := strconv.ParseUint(context.Param("userId"), 10, 64)
 	input := inputs.GetUserInput{UserID: userId}
 
-	fmt.Println("LOOK AT MEEEEE")
-	fmt.Println(userId)
-
 	// if GetAuthenticatedUser(context).ID != userId {
 	//     context.AbortWithError(401, errors.New("unauthorized"))
 	// }

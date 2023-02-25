@@ -1,6 +1,7 @@
 package tests
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -25,6 +26,29 @@ type ExpectedUserResponse struct {
 }
 
 func TestUsers(t *testing.T) {
+	t.Run("POST /users creates a new user", func(t *testing.T) {
+		Reset()
+
+		var response ExpectedUserResponse
+
+		router := SetupRouter()
+
+		var payload = []byte(`{"phonePrefix":"+34", "phoneNumber":"123456789", "countryCode":"ES"}`)
+
+		writer := httptest.NewRecorder()
+		request, _ := http.NewRequest("POST", "/users", bytes.NewBuffer(payload))
+		router.ServeHTTP(writer, request)
+
+		json.NewDecoder(writer.Body).Decode(&response)
+
+		assert.Equal(t, 201, writer.Code)
+		assert.Equal(t, "+34", response.PhonePrefix)
+		assert.Equal(t, "123456789", response.PhoneNumber)
+		assert.Equal(t, "ES", response.CountryCode)
+
+		assert.Equal(t, true, DatabaseHas("users_users", "phone_prefix='+34' AND phone_number='123456789' AND country_code='ES'"))
+	})
+
 	t.Run("GET /users/:userId returns the requested user", func(t *testing.T) {
 		Reset()
 

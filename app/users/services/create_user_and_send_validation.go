@@ -1,6 +1,11 @@
 package services
 
 import (
+	"fmt"
+
+	"github.com/twilio/twilio-go"
+	twilioApi "github.com/twilio/twilio-go/rest/api/v2010"
+
 	inputs "github.com/yugarinn/pigeon-api/app/users/inputs"
 	managers "github.com/yugarinn/pigeon-api/app/users/managers"
 	models "github.com/yugarinn/pigeon-api/app/users/models"
@@ -34,7 +39,16 @@ func createAndSendValidationCodeFor(user models.User) (models.UserValidationCode
 	return validationCode, creationError
 }
 
-// TODO
 func sendValidationSMSTo(user models.User, validationCode models.UserValidationCode) error {
-	return nil
+	client := twilio.NewRestClient()
+
+	params := &twilioApi.CreateMessageParams{}
+
+	params.SetBody(fmt.Sprintf("This is your verification code: %s", validationCode.Code))
+	params.SetFrom("+12765229854")
+	params.SetTo(fmt.Sprintf("%s%s", user.PhonePrefix, user.PhoneNumber))
+
+	_, error := client.Api.CreateMessage(params)
+
+	return error
 }
