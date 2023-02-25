@@ -8,10 +8,11 @@ type User struct {
 	gorm.Model
 	ID uint64
 	Email string
-	CountryCode string
-	PhoneNumber string
 	PhonePrefix string
+	PhoneNumber string
+	CountryCode string
 	Name string
+	LastName string
 	IsConfirmed bool
 }
 

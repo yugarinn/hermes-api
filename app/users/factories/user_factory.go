@@ -7,22 +7,27 @@ import (
 )
 
 func CreateUser(properties inputs.CreateUserInput) users.User {
+	faker := faker.New()
     user := users.User{Email: properties.Email, Name: properties.Name, PhoneNumber: properties.PhoneNumber, CountryCode: properties.CountryCode}
 
-	if len(user.Name) == 0 {
-		user.Name = faker.New().Person().Name()
-	}
-
 	if len(user.Email) == 0 {
-		user.Email = faker.New().Person().Contact().Email
+		user.Email = faker.Person().Contact().Email
 	}
 
 	if len(user.PhoneNumber) == 0 {
-		user.PhoneNumber = faker.New().Person().Contact().Phone
+		user.PhoneNumber = faker.Person().Contact().Phone
 	}
 
 	if len(user.CountryCode) == 0 {
 		user.CountryCode = "ES"
+	}
+
+	if len(user.Name) == 0 {
+		user.Name = faker.Person().Name()
+	}
+
+	if len(user.LastName) == 0 {
+		user.Name = faker.Person().LastName()
 	}
 
 	database.Create(&user)

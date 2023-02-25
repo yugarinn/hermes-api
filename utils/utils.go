@@ -35,13 +35,13 @@ func LoadEnvFile(env string) {
 }
 
 func IsProduction() bool {
-	return os.Getenv("CATAPI_ENV") == "production"
+	return os.Getenv("PIGEON_ENV") == "production"
 }
 
 func IsDevelopment() bool {
-	return os.Getenv("CATAPI_ENV") == "development"
+	return os.Getenv("PIGEON_ENV") == "development"
 }
 
 func IsTest() bool {
-	return os.Getenv("CATAPI_ENV") == "test"
+	return os.Getenv("PIGEON_ENV") == "test"
 }

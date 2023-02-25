@@ -20,11 +20,11 @@ func CreateUser(input inputs.CreateUserInput) (users.User, error) {
 	return user, result.Error
 }
 
-func GetAllUsers() []users.User {
+func GetPaginatedUsers(page int, size int) ([]users.User, error) {
 	var users []users.User
-	database.Find(&users)
+	result := database.Find(&users)
 
-	return users
+	return users, result.Error
 }
 
 func GetUser(id uint64) (users.User, error) {
