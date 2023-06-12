@@ -1,7 +1,7 @@
 package responses
 
 import (
-	models "github.com/yugarinn/pigeon-api/app/users/models"
+	models "github.com/yugarinn/hermes-api/app/users/models"
 )
 
 type UserResponse struct {

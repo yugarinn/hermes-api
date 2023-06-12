@@ -7,9 +7,9 @@ import (
 
 	"gorm.io/gorm"
 
-	"github.com/yugarinn/pigeon-api/connections"
-	"github.com/yugarinn/pigeon-api/app/messages/inputs"
-	"github.com/yugarinn/pigeon-api/app/messages/models"
+	"github.com/yugarinn/hermes-api/connections"
+	"github.com/yugarinn/hermes-api/app/messages/inputs"
+	"github.com/yugarinn/hermes-api/app/messages/models"
 )
 
 

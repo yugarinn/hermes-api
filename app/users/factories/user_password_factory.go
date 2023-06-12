@@ -3,8 +3,8 @@ package factories
 import (
 	"time"
 
-	"github.com/yugarinn/pigeon-api/app/users/inputs"
-	"github.com/yugarinn/pigeon-api/app/users/models"
+	"github.com/yugarinn/hermes-api/app/users/inputs"
+	"github.com/yugarinn/hermes-api/app/users/models"
 	"github.com/jaswdr/faker"
 )
 

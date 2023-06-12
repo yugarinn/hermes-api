@@ -10,8 +10,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/yugarinn/pigeon-api/app/users/factories"
-	"github.com/yugarinn/pigeon-api/app/users/inputs"
+	"github.com/yugarinn/hermes-api/app/users/factories"
+	"github.com/yugarinn/hermes-api/app/users/inputs"
 )
 
 
@@ -27,7 +27,7 @@ type ExpectedUserResponse struct {
 
 func TestUsers(t *testing.T) {
 	t.Run("POST /users creates a new user", func(t *testing.T) {
-		Reset()
+		ResetDatabase()
 
 		var response ExpectedUserResponse
 
@@ -50,7 +50,7 @@ func TestUsers(t *testing.T) {
 	})
 
 	t.Run("GET /users/:userId returns the requested user", func(t *testing.T) {
-		Reset()
+		ResetDatabase()
 
 		var response ExpectedUserResponse
 

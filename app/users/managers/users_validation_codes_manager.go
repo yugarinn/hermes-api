@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"time"
 
-	users "github.com/yugarinn/pigeon-api/app/users/models"
+	users "github.com/yugarinn/hermes-api/app/users/models"
 )
 
 

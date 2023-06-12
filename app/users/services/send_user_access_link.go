@@ -34,15 +34,15 @@ func (a *loginAuth) Next(fromServer []byte, more bool) ([]byte, error) {
 }
 
 func SendValidationLinkByEmail(toAddress string, hash string) {
-    fromAddress := os.Getenv("PIGEON_EMAIL_ADDRESS")
-    auth := LoginAuth(fromAddress, os.Getenv("PIGEON_EMAIL_PASSWORD"))
+    fromAddress := os.Getenv("HERMES_EMAIL_ADDRESS")
+    auth := LoginAuth(fromAddress, os.Getenv("HERMES_EMAIL_PASSWORD"))
     to := []string{toAddress}
 
     // TODO: get the base url from os env
     msg := []byte("To:" + toAddress + "\r\n" +
-        "Subject: Access to your Pigeon Account\r\n" +
+        "Subject: Access to your Hermes Account\r\n" +
         "\r\n" +
-        "Click here to access your account: https://app.pigeonchat.com?hash=" + hash + "\r\n")
+        "Click here to access your account: https://app.hermeschat.com?hash=" + hash + "\r\n")
 
     err := smtp.SendMail("smtp.gmail.com:587", auth, fromAddress, to, msg)
 

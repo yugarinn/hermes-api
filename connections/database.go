@@ -6,13 +6,13 @@ import (
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"github.com/yugarinn/pigeon-api/utils"
+	"github.com/yugarinn/hermes-api/utils"
 )
 
-const projectDirName = "pigeon-api"
+const projectDirName = "hermes-api"
 
 func Database() *gorm.DB {
-	utils.LoadEnvFile(os.Getenv("PIGEON_ENV"))
+	utils.LoadEnvFile(os.Getenv("HERMES_ENV"))
 
 	databaseURI := os.Getenv("DB_URI")
 	database, err := gorm.Open(mysql.Open(databaseURI), &gorm.Config{})

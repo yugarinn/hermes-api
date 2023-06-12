@@ -6,9 +6,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 
-	inputs "github.com/yugarinn/pigeon-api/app/messages/inputs"
-	managers "github.com/yugarinn/pigeon-api/app/messages/managers"
-	responses "github.com/yugarinn/pigeon-api/http/responses"
+	inputs "github.com/yugarinn/hermes-api/app/messages/inputs"
+	managers "github.com/yugarinn/hermes-api/app/messages/managers"
+	responses "github.com/yugarinn/hermes-api/http/responses"
 )
 
 

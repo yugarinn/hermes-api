@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 
-	"github.com/yugarinn/pigeon-api/http"
+	"github.com/yugarinn/hermes-api/http"
 )
 
 
@@ -13,6 +13,7 @@ func setupRouter() *gin.Engine {
 
 	return router
 }
+
 func main() {
 	router := setupRouter()
 	router.Run()

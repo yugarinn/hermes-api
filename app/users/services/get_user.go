@@ -1,9 +1,9 @@
 package services
 
 import (
-	inputs "github.com/yugarinn/pigeon-api/app/users/inputs"
-	managers "github.com/yugarinn/pigeon-api/app/users/managers"
-	models "github.com/yugarinn/pigeon-api/app/users/models"
+	inputs "github.com/yugarinn/hermes-api/app/users/inputs"
+	managers "github.com/yugarinn/hermes-api/app/users/managers"
+	models "github.com/yugarinn/hermes-api/app/users/models"
 )
 
 

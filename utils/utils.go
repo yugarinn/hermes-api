@@ -8,7 +8,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-const projectDirName = "pigeon-api"
+const projectDirName = "hermes-api"
 
 func LoadEnvFile(env string) {
 	projectName := regexp.MustCompile(`^(.*` + projectDirName + `)`)
@@ -35,13 +35,13 @@ func LoadEnvFile(env string) {
 }
 
 func IsProduction() bool {
-	return os.Getenv("PIGEON_ENV") == "production"
+	return os.Getenv("HERMES_ENV") == "production"
 }
 
 func IsDevelopment() bool {
-	return os.Getenv("PIGEON_ENV") == "development"
+	return os.Getenv("HERMES_ENV") == "development"
 }
 
 func IsTest() bool {
-	return os.Getenv("PIGEON_ENV") == "test"
+	return os.Getenv("HERMES_ENV") == "test"
 }

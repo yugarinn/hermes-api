@@ -1,4 +1,4 @@
-module github.com/yugarinn/pigeon-api
+module github.com/yugarinn/hermes-api
 
 go 1.18
 

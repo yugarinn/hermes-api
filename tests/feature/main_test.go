@@ -7,10 +7,10 @@ import (
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 
-	"github.com/yugarinn/pigeon-api/app/users/models"
-	"github.com/yugarinn/pigeon-api/app/messages/models"
-	"github.com/yugarinn/pigeon-api/connections"
-	"github.com/yugarinn/pigeon-api/http"
+	"github.com/yugarinn/hermes-api/app/users/models"
+	"github.com/yugarinn/hermes-api/app/messages/models"
+	"github.com/yugarinn/hermes-api/connections"
+	"github.com/yugarinn/hermes-api/http"
 )
 
 
@@ -25,7 +25,7 @@ func SetupRouter() *gin.Engine {
 	return router
 }
 
-func Reset() {
+func ResetDatabase() {
 	databaseTeardown()
 	databaseSetup()
 }
