@@ -22,14 +22,14 @@ func CreateUserAndSendValidationCode(input inputs.CreateUserInput) CreateUserRes
 
 	if creationError == nil {
 		go func() {
-			createAndSendValidationCodeFor(user)
+			CreateAndSendValidationCodeFor(user)
 		}()
 	}
 
 	return CreateUserResult{User: user, Error: creationError}
 }
 
-func createAndSendValidationCodeFor(user models.User) (models.UserValidationCode, error) {
+func CreateAndSendValidationCodeFor(user models.User) (models.UserValidationCode, error) {
 	validationCode, creationError := managers.CreateValidationCodeFor(user.ID)
 
 	if creationError == nil {

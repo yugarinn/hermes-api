@@ -3,7 +3,6 @@ package tests
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -37,36 +36,67 @@ func TestUsers(t *testing.T) {
 
 		writer := httptest.NewRecorder()
 		request, _ := http.NewRequest("POST", "/users", bytes.NewBuffer(payload))
-		router.ServeHTTP(writer, request)
 
+		router.ServeHTTP(writer, request)
 		json.NewDecoder(writer.Body).Decode(&response)
 
 		assert.Equal(t, 201, writer.Code)
 		assert.Equal(t, "+34", response.PhonePrefix)
 		assert.Equal(t, "123456789", response.PhoneNumber)
 		assert.Equal(t, "ES", response.CountryCode)
-
 		assert.Equal(t, true, DatabaseHas("users_users", "phone_prefix='+34' AND phone_number='123456789' AND country_code='ES'"))
+	})
+
+	t.Run("POST /users does not create a new user if no phone or phone prefix is provided", func(t *testing.T) {
+		ResetDatabase()
+
+		router := SetupRouter()
+
+		var noPrefixPayload = []byte(`{"phoneNumber":"123456789", "countryCode":"ES"}`)
+		var noNumberPayload = []byte(`{"phonePrefix":"+34", "countryCode":"ES"}`)
+
+		noPrefixWriter := httptest.NewRecorder()
+		noNumberWriter := httptest.NewRecorder()
+		noPrefixRequest, _ := http.NewRequest("POST", "/users", bytes.NewBuffer(noPrefixPayload))
+		noNumberRequest, _ := http.NewRequest("POST", "/users", bytes.NewBuffer(noNumberPayload))
+
+		router.ServeHTTP(noPrefixWriter, noPrefixRequest)
+		router.ServeHTTP(noNumberWriter, noNumberRequest)
+
+		assert.Equal(t, 422, noPrefixWriter.Code)
+		assert.Equal(t, 422, noNumberWriter.Code)
+		assert.Equal(t, true, DatabaseMissing("users_users", "phone_number='123456789' AND country_code='ES'"))
+		assert.Equal(t, true, DatabaseMissing("users_users", "phone_prefix='+34' AND country_code='ES'"))
+	})
+
+	t.Run("POST /users does not create a new user if no country code is provided", func(t *testing.T) {
+		ResetDatabase()
+
+		router := SetupRouter()
+		var payload = []byte(`{"phonePrefix":"+34", "phoneNumber":"123456789"}`)
+
+		writer := httptest.NewRecorder()
+		request, _ := http.NewRequest("POST", "/users", bytes.NewBuffer(payload))
+
+		router.ServeHTTP(writer, request)
+
+		assert.Equal(t, 422, writer.Code)
+		assert.Equal(t, true, DatabaseMissing("users_users", "phone_prefix='+34' AND phone_number='123456789'"))
 	})
 
 	t.Run("GET /users/:userId returns the requested user", func(t *testing.T) {
 		ResetDatabase()
 
-		var response ExpectedUserResponse
-
 		user := factories.CreateUser(inputs.CreateUserInput{PhonePrefix: "34", PhoneNumber: "666666666", CountryCode: "ES"})
 
+		var response ExpectedUserResponse
 		router := SetupRouter()
-
 		writer := httptest.NewRecorder()
 		request, _ := http.NewRequest("GET", "/users/1", nil)
 		AuthenticateAs(1 /* just pass the raw ID and skip the DB call */, request)
+
 		router.ServeHTTP(writer, request)
-
 		json.NewDecoder(writer.Body).Decode(&response)
-
-		fmt.Println(response.PhoneNumber)
-		fmt.Println(user.PhoneNumber)
 
 		assert.Equal(t, 200, writer.Code)
 		assert.Equal(t, user.ID, response.ID)
