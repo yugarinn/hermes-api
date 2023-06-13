@@ -47,6 +47,10 @@ func TestUsers(t *testing.T) {
 		assert.Equal(t, true, DatabaseHas("users_users", "phone_prefix='+34' AND phone_number='123456789' AND country_code='ES'"))
 	})
 
+	t.Run("POST /users sends a verification SMS upon successfully creating a new user", func(t *testing.T) {
+		t.Skip()
+	})
+
 	t.Run("POST /users does not create a new user if no phone or phone prefix is provided", func(t *testing.T) {
 		ResetDatabase()
 

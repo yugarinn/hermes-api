@@ -4,9 +4,10 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/yugarinn/hermes-api/http/controllers"
 	"github.com/yugarinn/hermes-api/http/middlewares"
+	"github.com/yugarinn/hermes-api/lib"
 )
 
-func Register(router *gin.Engine) {
+func Register(hermes *lib.Hermes, router *gin.Engine) {
 
 	router.POST("/users", controllers.CreateUser)
 
