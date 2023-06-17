@@ -7,6 +7,7 @@ import (
 	inputs "github.com/yugarinn/hermes-api/app/users/inputs"
 	managers "github.com/yugarinn/hermes-api/app/users/managers"
 	models "github.com/yugarinn/hermes-api/app/users/models"
+	utils "github.com/yugarinn/hermes-api/utils"
 )
 
 
@@ -19,18 +20,23 @@ func CreateUserAndSendValidationCode(app *core.App, input inputs.CreateUserInput
 	user, creationError := managers.CreateUser(input)
 
 	if creationError == nil {
-		go func() {
-			validationCode, creationError := managers.CreateValidationCodeFor(user.ID)
-
-			if creationError == nil {
-				toPhoneNumber := fmt.Sprintf("%s%s", user.PhonePrefix, user.PhoneNumber)
-				fromPhoneNumber := "+34667888999"
-
-				app.TwilioClient.SendSMS(toPhoneNumber, fromPhoneNumber, validationCode.Code)
-			}
-
-		}()
+		if utils.IsProduction() {
+			go sendSMS(app, user)
+		} else {
+			sendSMS(app, user)
+		}
 	}
 
 	return CreateUserResult{User: user, Error: creationError}
+}
+
+func sendSMS(app *core.App, user models.User) {
+	validationCode, creationError := managers.CreateValidationCodeFor(user.ID)
+
+	if creationError == nil {
+		toPhoneNumber := fmt.Sprintf("%s%s", user.PhonePrefix, user.PhoneNumber)
+		fromPhoneNumber := "+34667888999"
+
+		app.TwilioClient.SendSMS(toPhoneNumber, fromPhoneNumber, validationCode.Code)
+	}
 }

@@ -8,9 +8,11 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/yugarinn/hermes-api/tests/mocks"
 
 	"github.com/yugarinn/hermes-api/app/users/factories"
 	"github.com/yugarinn/hermes-api/app/users/inputs"
+
 )
 
 
@@ -30,7 +32,7 @@ func TestUsers(t *testing.T) {
 
 		var response ExpectedUserResponse
 
-		router := SetupRouter()
+		_, router := SetupRouter()
 
 		var payload = []byte(`{"phonePrefix":"+34", "phoneNumber":"123456789", "countryCode":"ES"}`)
 
@@ -48,13 +50,34 @@ func TestUsers(t *testing.T) {
 	})
 
 	t.Run("POST /users sends a verification SMS upon successfully creating a new user", func(t *testing.T) {
-		t.Skip()
+		ResetDatabase()
+
+		var response ExpectedUserResponse
+
+		app, router := SetupRouter()
+
+		var payload = []byte(`{"phonePrefix":"+34", "phoneNumber":"123456789", "countryCode":"ES"}`)
+
+		writer := httptest.NewRecorder()
+		request, _ := http.NewRequest("POST", "/users", bytes.NewBuffer(payload))
+
+		router.ServeHTTP(writer, request)
+		json.NewDecoder(writer.Body).Decode(&response)
+
+		assert.Equal(t, 201, writer.Code)
+		assert.Equal(t, "+34", response.PhonePrefix)
+		assert.Equal(t, "123456789", response.PhoneNumber)
+		assert.Equal(t, "ES", response.CountryCode)
+		assert.Equal(t, true, DatabaseHas("users_users", "phone_prefix='+34' AND phone_number='123456789' AND country_code='ES'"))
+
+		twilioMock := app.TwilioClient.(*mocks.TwilioMock)
+		assert.Equal(t, 1, twilioMock.TimesInvoked)
 	})
 
 	t.Run("POST /users does not create a new user if no phone or phone prefix is provided", func(t *testing.T) {
 		ResetDatabase()
 
-		router := SetupRouter()
+		_, router := SetupRouter()
 
 		var noPrefixPayload = []byte(`{"phoneNumber":"123456789", "countryCode":"ES"}`)
 		var noNumberPayload = []byte(`{"phonePrefix":"+34", "countryCode":"ES"}`)
@@ -76,7 +99,7 @@ func TestUsers(t *testing.T) {
 	t.Run("POST /users does not create a new user if no country code is provided", func(t *testing.T) {
 		ResetDatabase()
 
-		router := SetupRouter()
+		_, router := SetupRouter()
 		var payload = []byte(`{"phonePrefix":"+34", "phoneNumber":"123456789"}`)
 
 		writer := httptest.NewRecorder()
@@ -94,7 +117,7 @@ func TestUsers(t *testing.T) {
 		user := factories.CreateUser(inputs.CreateUserInput{PhonePrefix: "34", PhoneNumber: "666666666", CountryCode: "ES"})
 
 		var response ExpectedUserResponse
-		router := SetupRouter()
+		_, router := SetupRouter()
 		writer := httptest.NewRecorder()
 		request, _ := http.NewRequest("GET", "/users/1", nil)
 		AuthenticateAs(1 /* just pass the raw ID and skip the DB call */, request)

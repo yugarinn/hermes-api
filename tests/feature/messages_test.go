@@ -26,7 +26,7 @@ func TestMessages(t *testing.T) {
 
 		var response ExpectedMessageCreationResponse
 
-		router := SetupRouter()
+		_, router := SetupRouter()
 
 		var payload = []byte(`{"senderId":"1", "receiverId":"2", "body":"long ass letter"`)
 

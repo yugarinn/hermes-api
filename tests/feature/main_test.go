@@ -18,13 +18,14 @@ import (
 
 var database *gorm.DB = connections.Database()
 
-func SetupRouter() *gin.Engine {
+func SetupRouter() (*core.App, *gin.Engine) {
 	gin.SetMode("test")
 
+	app := mockApp()
 	router := gin.Default()
-	routes.Register(mockApp(), router)
+	routes.Register(app, router)
 
-	return router
+	return app, router
 }
 
 func ResetDatabase() {

@@ -1,10 +1,16 @@
 package mocks
 
 
-type TwilioMock struct {}
+type TwilioMock struct {
+	TimesInvoked int
+}
 
-func (twilioMock *TwilioMock) SendSMS(toPhoneNumber string, fromPhoneNumber string, message string) error {
-	var error error
+func (t *TwilioMock) SendSMS(toPhoneNumber string, fromPhoneNumber string, message string) error {
+	t.registerInvokation()
 
-	return error
+	return nil
+}
+
+func (t *TwilioMock) registerInvokation() {
+    t.TimesInvoked++
 }
