@@ -8,13 +8,14 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 
+	core "github.com/yugarinn/hermes-api/core"
 	inputs "github.com/yugarinn/hermes-api/app/users/inputs"
 	services "github.com/yugarinn/hermes-api/app/users/services"
 	responses "github.com/yugarinn/hermes-api/http/responses"
 )
 
 
-func CreateUser(context *gin.Context) {
+func CreateUser(app *core.App, context *gin.Context) {
 	input := inputs.CreateUserInput{}
 	validate := validator.New()
 
@@ -26,7 +27,7 @@ func CreateUser(context *gin.Context) {
 		return
 	}
 
-	result := services.CreateUserAndSendValidationCode(input)
+	result := services.CreateUserAndSendValidationCode(app, input)
 
 	if result.Error != nil {
 		FailWithHttpCode(context, 422, result.Error.Error())

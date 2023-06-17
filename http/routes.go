@@ -4,12 +4,11 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/yugarinn/hermes-api/http/controllers"
 	"github.com/yugarinn/hermes-api/http/middlewares"
-	"github.com/yugarinn/hermes-api/lib"
+	"github.com/yugarinn/hermes-api/core"
 )
 
-func Register(hermes *lib.Hermes, router *gin.Engine) {
-
-	router.POST("/users", controllers.CreateUser)
+func Register(app *core.App, router *gin.Engine) {
+    router.POST("/users", func(context *gin.Context) { controllers.CreateUser(app, context) })
 
 	authorizedRoutes := router.Group("/")
 	authorizedRoutes.Use(middlewares.CheckAccessToken)

@@ -11,6 +11,8 @@ import (
 	"github.com/yugarinn/hermes-api/app/messages/models"
 	"github.com/yugarinn/hermes-api/connections"
 	"github.com/yugarinn/hermes-api/http"
+	"github.com/yugarinn/hermes-api/core"
+	"github.com/yugarinn/hermes-api/tests/mocks"
 )
 
 
@@ -20,7 +22,7 @@ func SetupRouter() *gin.Engine {
 	gin.SetMode("test")
 
 	router := gin.Default()
-	routes.Register(router)
+	routes.Register(mockApp(), router)
 
 	return router
 }
@@ -66,4 +68,12 @@ func databaseSetup() {
 func databaseTeardown() {
 	database.Migrator().DropTable(&users.User{})
 	database.Migrator().DropTable(&messages.Message{})
+}
+
+func mockApp() *core.App {
+    app := &core.App{
+        TwilioClient: &mocks.TwilioMock{},
+    }
+
+	return app
 }

@@ -4,23 +4,21 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/yugarinn/hermes-api/http"
-	"github.com/yugarinn/hermes-api/lib"
+	"github.com/yugarinn/hermes-api/core"
+
 )
 
 
-func setupRouter(hermes *lib.Hermes) *gin.Engine {
+func setupRouter(app *core.App) *gin.Engine {
 	router := gin.Default()
-	routes.Register(hermes, router)
+	routes.Register(app, router)
 
 	return router
 }
 
 func main() {
-	// TODO: finish the IoC Container implementation, think about maybe naming it `App` instead of `Hermes`.
-    hermes := &lib.Hermes{
-        dependencies: make(map[string]interface{}),
-    }
+	app := core.BootstrapApplication()
+	router := setupRouter(app)
 
-	router := setupRouter(hermes)
 	router.Run()
 }
