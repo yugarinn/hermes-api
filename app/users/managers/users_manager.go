@@ -14,7 +14,7 @@ func CreateUser(input inputs.CreateUserInput) (users.User, error) {
 		return users.User{}, errors.New("phone_number_already_registered")
 	}
 
-    user := users.User{Email: input.Email, Name: input.Name, PhonePrefix: input.PhonePrefix, PhoneNumber: input.PhoneNumber, CountryCode: input.CountryCode}
+    user := users.User{Email: input.Email, Name: input.Name, LastName: input.LastName, PhonePrefix: input.PhonePrefix, PhoneNumber: input.PhoneNumber, CountryCode: input.CountryCode}
 	result := database.Create(&user)
 
 	return user, result.Error

@@ -11,11 +11,11 @@ import (
 
 const validationCodeLifetimeInSeconds = 120
 
-func CreateValidationCodeFor(userId uint64) (users.UserValidationCode, error) {
-    confirmationCode := users.UserValidationCode{UserId: userId, Code: generateValidationCode(), IsUsed: false, ExpiresAt: generateExpirationDate()}
-	result := database.Create(&confirmationCode)
+func CreateValidationCodeFor(userId uint64) (users.UserValidation, error) {
+    validation := users.UserValidation{UserId: userId, Code: generateValidationCode(), IsUsed: false, ExpiresAt: generateExpirationDate()}
+	result := database.Create(&validation)
 
-	return confirmationCode, result.Error
+	return validation, result.Error
 }
 
 func generateValidationCode() string {

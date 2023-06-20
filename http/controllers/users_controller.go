@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -22,7 +21,7 @@ func CreateUser(app *core.App, context *gin.Context) {
 	context.BindJSON(&input)
 	validationErrors := validate.Struct(input)
 
-	if  validationErrors != nil {
+	if validationErrors != nil {
 		FailWithHttpCode(context, 422, validationErrors.Error())
 		return
 	}
@@ -61,8 +60,6 @@ func GetUser(context *gin.Context) {
 	// }
 
 	result := services.GetUser(input)
-
-	fmt.Println(result.User)
 
 	if result.Error != nil {
 		FailWithHttpCode(context, 404, "user not found")

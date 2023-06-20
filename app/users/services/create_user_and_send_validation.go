@@ -21,16 +21,16 @@ func CreateUserAndSendValidationCode(app *core.App, input inputs.CreateUserInput
 
 	if creationError == nil {
 		if utils.IsProduction() {
-			go sendSMS(app, user)
+			go SendValidationSMS(app, user)
 		} else {
-			sendSMS(app, user)
+			SendValidationSMS(app, user)
 		}
 	}
 
 	return CreateUserResult{User: user, Error: creationError}
 }
 
-func sendSMS(app *core.App, user models.User) {
+func SendValidationSMS(app *core.App, user models.User) {
 	validationCode, creationError := managers.CreateValidationCodeFor(user.ID)
 
 	if creationError == nil {

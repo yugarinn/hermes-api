@@ -8,8 +8,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/yugarinn/hermes-api/tests/mocks"
 
+	"github.com/yugarinn/hermes-api/tests/mocks"
 	"github.com/yugarinn/hermes-api/app/users/factories"
 	"github.com/yugarinn/hermes-api/app/users/inputs"
 
@@ -49,6 +49,22 @@ func TestUsers(t *testing.T) {
 		assert.Equal(t, true, DatabaseHas("users_users", "phone_prefix='+34' AND phone_number='123456789' AND country_code='ES'"))
 	})
 
+	t.Run("POST /users creates a new user validation", func(t *testing.T) {
+		ResetDatabase()
+
+		_, router := SetupRouter()
+
+		var payload = []byte(`{"phonePrefix":"+34", "phoneNumber":"123456789", "countryCode":"ES"}`)
+
+		writer := httptest.NewRecorder()
+		request, _ := http.NewRequest("POST", "/users", bytes.NewBuffer(payload))
+
+		router.ServeHTTP(writer, request)
+
+		assert.Equal(t, 201, writer.Code)
+		assert.Equal(t, true, DatabaseHas("users_validations", "user_id='1'"))
+	})
+
 	t.Run("POST /users sends a verification SMS upon successfully creating a new user", func(t *testing.T) {
 		ResetDatabase()
 
@@ -63,14 +79,8 @@ func TestUsers(t *testing.T) {
 
 		router.ServeHTTP(writer, request)
 		json.NewDecoder(writer.Body).Decode(&response)
-
-		assert.Equal(t, 201, writer.Code)
-		assert.Equal(t, "+34", response.PhonePrefix)
-		assert.Equal(t, "123456789", response.PhoneNumber)
-		assert.Equal(t, "ES", response.CountryCode)
-		assert.Equal(t, true, DatabaseHas("users_users", "phone_prefix='+34' AND phone_number='123456789' AND country_code='ES'"))
-
 		twilioMock := app.TwilioClient.(*mocks.TwilioMock)
+
 		assert.Equal(t, 1, twilioMock.TimesInvoked)
 	})
 
@@ -114,7 +124,7 @@ func TestUsers(t *testing.T) {
 	t.Run("GET /users/:userId returns the requested user", func(t *testing.T) {
 		ResetDatabase()
 
-		user := factories.CreateUser(inputs.CreateUserInput{PhonePrefix: "34", PhoneNumber: "666666666", CountryCode: "ES"})
+		user := factories.CreateUser(inputs.CreateUserInput{PhonePrefix: "34", PhoneNumber: "166666666", CountryCode: "ES"})
 
 		var response ExpectedUserResponse
 		_, router := SetupRouter()

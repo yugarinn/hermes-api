@@ -8,7 +8,7 @@ import (
 
 func CreateUser(properties inputs.CreateUserInput) users.User {
 	faker := faker.New()
-    user := users.User{Email: properties.Email, Name: properties.Name, PhoneNumber: properties.PhoneNumber, CountryCode: properties.CountryCode}
+    user := users.User{Email: properties.Email, Name: properties.Name, LastName: properties.LastName, PhoneNumber: properties.PhoneNumber, CountryCode: properties.CountryCode}
 
 	if len(user.Email) == 0 {
 		user.Email = faker.Person().Contact().Email

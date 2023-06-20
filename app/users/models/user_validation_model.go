@@ -7,7 +7,7 @@ import (
 )
 
 
-type UserValidationCode struct {
+type UserValidation struct {
 	gorm.Model
 	ID uint64
 	UserId uint64
@@ -16,6 +16,6 @@ type UserValidationCode struct {
 	ExpiresAt time.Time
 }
 
-func (UserValidationCode) TableName() string {
-	return "users_validation_codes"
+func (UserValidation) TableName() string {
+	return "users_validations"
 }
