@@ -1,14 +1,31 @@
 package factories
 
 import (
-	"github.com/yugarinn/hermes-api/app/users/inputs"
 	"github.com/yugarinn/hermes-api/app/users/models"
 	"github.com/jaswdr/faker"
 )
 
-func CreateUser(properties inputs.CreateUserInput) users.User {
+
+type UserFactoryInput struct {
+	Name string
+	LastName string
+	Email string
+	PhonePrefix string
+	PhoneNumber string
+	CountryCode string
+	IsConfirmed bool
+}
+
+func CreateUser(properties UserFactoryInput) users.User {
 	faker := faker.New()
-    user := users.User{Email: properties.Email, Name: properties.Name, LastName: properties.LastName, PhoneNumber: properties.PhoneNumber, CountryCode: properties.CountryCode}
+    user := users.User{
+		Email: properties.Email,
+		Name: properties.Name,
+		LastName: properties.LastName,
+		PhoneNumber: properties.PhoneNumber,
+		CountryCode: properties.CountryCode,
+		IsConfirmed: properties.IsConfirmed,
+	}
 
 	if len(user.Email) == 0 {
 		user.Email = faker.Person().Contact().Email
@@ -35,7 +52,7 @@ func CreateUser(properties inputs.CreateUserInput) users.User {
 	return user
 }
 
-func CreateUsersList(number int, properties inputs.CreateUserInput) []users.User {
+func CreateUsersList(number int, properties UserFactoryInput) []users.User {
 	var users []users.User
 
 	for i := 0; i < number; i++ {

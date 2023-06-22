@@ -11,8 +11,6 @@ import (
 
 	"github.com/yugarinn/hermes-api/tests/mocks"
 	"github.com/yugarinn/hermes-api/app/users/factories"
-	"github.com/yugarinn/hermes-api/app/users/inputs"
-
 )
 
 
@@ -124,7 +122,7 @@ func TestUsers(t *testing.T) {
 	t.Run("GET /users/:userId returns the requested user", func(t *testing.T) {
 		ResetDatabase()
 
-		user := factories.CreateUser(inputs.CreateUserInput{PhonePrefix: "34", PhoneNumber: "166666666", CountryCode: "ES"})
+		user := factories.CreateUser(factories.UserFactoryInput{PhonePrefix: "34", PhoneNumber: "166666666", CountryCode: "ES"})
 
 		var response ExpectedUserResponse
 		_, router := SetupRouter()

@@ -45,5 +45,12 @@ func ValidateUser(context *gin.Context) {
 		return
 	}
 
+	validateUserResult := services.ValidateUser(input)
+
+	if validateUserResult.Error != nil {
+		FailWithHttpCode(context, 422, validationErrors.Error())
+		return
+	}
+
 	context.JSON(http.StatusNoContent, nil)
 }

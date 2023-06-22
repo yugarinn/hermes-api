@@ -18,6 +18,26 @@ func CreateValidationCodeFor(userId uint64) (users.UserValidation, error) {
 	return validation, result.Error
 }
 
+func GetUserValidation(validationId uint64) (users.UserValidation, error) {
+	var validation users.UserValidation
+	result := database.Where("id", validationId).First(&validation)
+
+	return validation, result.Error
+}
+
+func SetValidationAsUsed(id uint64) (users.UserValidation, error) {
+	validation, retrievalError := GetUserValidation(id)
+
+	if retrievalError != nil {
+		return users.UserValidation{}, retrievalError
+	}
+
+	validation.IsUsed = true
+	updateResult := database.Save(&validation)
+
+	return validation, updateResult.Error
+}
+
 func generateValidationCode() string {
 	code := strconv.Itoa(rand.Intn(1000000))
 

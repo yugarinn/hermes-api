@@ -12,7 +12,7 @@ func CreateUserPassword(properties inputs.CreateUserPasswordInput) users.UserPas
     password := users.UserPassword{UserId: properties.UserId, Hash: properties.Hash, ExpiresAt: properties.ExpiresAt}
 
 	if password.UserId == 0 {
-		user := CreateUser(inputs.CreateUserInput{})
+		user := CreateUser(UserFactoryInput{})
 		password.UserId = user.ID
 	}
 
