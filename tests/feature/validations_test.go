@@ -62,4 +62,66 @@ func TestValidations(t *testing.T) {
 		assert.Equal(t, true, DatabaseHas("users_validations", "id='1' AND user_id='1' AND is_used=1"))
 		assert.Equal(t, true, DatabaseHas("users_users", "id='1' AND is_confirmed='1'"))
 	})
+
+	t.Run("PUT /users/:userId/validations/:validationId does not allow to use expired validations", func(t *testing.T) {
+		ResetDatabase()
+
+		validationCode := "123ABC"
+
+		user := factories.CreateUser(factories.UserFactoryInput{PhonePrefix: "34", PhoneNumber: "166666666", CountryCode: "ES", IsConfirmed: false})
+		factories.CreateUserValidation(factories.UserValidationFactoryInput{UserID: user.ID, Code: validationCode, IsUsed: false, ExpiresAt: time.Now().Add(-24 * time.Hour)})
+
+		var payload = []byte(`{"validationCode":"123ABC"}`)
+
+		_, router := SetupRouter()
+		writer := httptest.NewRecorder()
+		request, _ := http.NewRequest("PUT", "/users/1/validations/1", bytes.NewBuffer(payload))
+
+		router.ServeHTTP(writer, request)
+
+		assert.Equal(t, 422, writer.Code)
+		assert.Equal(t, true, DatabaseMissing("users_validations", "id='1' AND user_id='1' AND is_used=1"))
+		assert.Equal(t, true, DatabaseMissing("users_users", "id='1' AND is_confirmed='1'"))
+	})
+
+	t.Run("PUT /users/:userId/validations/:validationId does not allow to use already used validations", func(t *testing.T) {
+		ResetDatabase()
+
+		validationCode := "123ABC"
+
+		user := factories.CreateUser(factories.UserFactoryInput{PhonePrefix: "34", PhoneNumber: "166666666", CountryCode: "ES", IsConfirmed: false})
+		factories.CreateUserValidation(factories.UserValidationFactoryInput{UserID: user.ID, Code: validationCode, IsUsed: true, ExpiresAt: time.Now().Add(24 * time.Hour)})
+
+		var payload = []byte(`{"validationCode":"123ABC"}`)
+
+		_, router := SetupRouter()
+		writer := httptest.NewRecorder()
+		request, _ := http.NewRequest("PUT", "/users/1/validations/1", bytes.NewBuffer(payload))
+
+		router.ServeHTTP(writer, request)
+
+		assert.Equal(t, 422, writer.Code)
+		assert.Equal(t, true, DatabaseMissing("users_users", "id='1' AND is_confirmed='1'"))
+	})
+
+	t.Run("PUT /users/:userId/validations/:validationId does not allow to use validations belonging to another user", func(t *testing.T) {
+		ResetDatabase()
+
+		validationCode := "123ABC"
+
+		factories.CreateUser(factories.UserFactoryInput{PhonePrefix: "34", PhoneNumber: "166666666", CountryCode: "ES", IsConfirmed: false})
+		factories.CreateUserValidation(factories.UserValidationFactoryInput{UserID: 2, Code: validationCode, IsUsed: true, ExpiresAt: time.Now().Add(24 * time.Hour)})
+
+		var payload = []byte(`{"validationCode":"123ABC"}`)
+
+		_, router := SetupRouter()
+		writer := httptest.NewRecorder()
+		request, _ := http.NewRequest("PUT", "/users/1/validations/1", bytes.NewBuffer(payload))
+
+		router.ServeHTTP(writer, request)
+
+		assert.Equal(t, 422, writer.Code)
+		assert.Equal(t, true, DatabaseMissing("users_validations", "id='1' AND user_id='1' AND is_used=1"))
+		assert.Equal(t, true, DatabaseMissing("users_users", "id='1' AND is_confirmed='1'"))
+	})
 }

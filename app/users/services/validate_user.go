@@ -33,5 +33,4 @@ func ValidateUser(input inputs.ValidateUserInput) ValidateUserResult {
 	} else {
 		return ValidateUserResult{Success: false, Error: nil}
 	}
-
 }
