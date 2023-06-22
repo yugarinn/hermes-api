@@ -52,5 +52,7 @@ func ValidateUser(context *gin.Context) {
 		return
 	}
 
+	// TODO: add service to generate a valid JWT and add it to the response.
+
 	context.JSON(http.StatusNoContent, nil)
 }
