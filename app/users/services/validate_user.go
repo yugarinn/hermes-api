@@ -1,6 +1,7 @@
 package services
 
 import (
+	"errors"
 	"time"
 
 	inputs "github.com/yugarinn/hermes-api/app/users/inputs"
@@ -31,6 +32,6 @@ func ValidateUser(input inputs.ValidateUserInput) ValidateUserResult {
 
 		return ValidateUserResult{Success: true, Error: nil}
 	} else {
-		return ValidateUserResult{Success: false, Error: nil}
+		return ValidateUserResult{Success: false, Error: errors.New("the_provided_validation_code_is_invalid")}
 	}
 }

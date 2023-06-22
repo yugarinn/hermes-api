@@ -48,7 +48,7 @@ func ValidateUser(context *gin.Context) {
 	validateUserResult := services.ValidateUser(input)
 
 	if validateUserResult.Success == false {
-		FailWithHttpCode(context, 422, "the_provided_validation_code_is_invalid")
+		FailWithHttpCode(context, 422, validateUserResult.Error.Error())
 		return
 	}
 
